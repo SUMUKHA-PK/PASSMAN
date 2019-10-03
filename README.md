@@ -23,7 +23,7 @@ THIS IS PASSMAN!
 
 ## Usage : 
 
-* Initial setup :
+* Client setup :
     - Redis server setup :
         1. Pull the docker image by `docker pull redis`
         2. Run the docker image on your local system by `docker run -d -p 6397:6397 redis` 
