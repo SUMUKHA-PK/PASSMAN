@@ -1,7 +1,40 @@
-# Password-Manager
-A docker based, locally hostable, password manager for organisations! 
-Written in Go!
-Based on computerphile video on password managers.
+# PASSMAN
+
+A password manager is essential to maintain lots of different passwords meeting the security needs of all the different hosts.
+Here is a simple solution to the same problem at zero cost.
+
+THIS IS PASSMAN!
+
+## Features :
+
+* Locally hostable on a network for home, school or university.
+* Separate client for maintaining data if network is unavailable.
+* Can access your data over the network with just the username and master password.
+* Uses REDIS server for persistent storage,thus is crash tolerant. Restarting the server gets back all the data safely.
+* Easy to use CLI commands.
+* Uses Go modules! Up to date with tech!
+* Setup of the client in local system is easy, single script does the whole initial setup.
+* HACKABLE code, fork and make your own modifications!
+
+## Documentation : 
+
+* Well commented code, easy to read and write modifications.
+* GoDoc link : 
+
+## Usage : 
+
+* Initial setup :
+    - Redis server setup :
+        1. Pull the docker image by `docker pull redis`
+        2. Run the docker image on your local system by `docker run -d -p 6397:6397 redis` 
+       
+    - Run PASSMAN : 
+        1. Clone the repo by `git clone https://github.com/SUMUKHA-PK/Password-Manager`
+        2. Naviagate to the client folder by `cd ~/path-to-repo/client`
+        3. Provide permissions by `chmod +x build.sh`
+        4. Build and the client by `./build.sh`
+
+## Demonstration : 
 
 
 ```
