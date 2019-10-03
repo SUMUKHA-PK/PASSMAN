@@ -15,6 +15,7 @@ THIS IS PASSMAN!
 * Uses Go modules! Up to date with tech!
 * Setup of the client in local system is easy, single script does the whole initial setup.
 * HACKABLE code, fork and make your own modifications!
+* No trust involved with the cloud party as you can host it in your own network :)
 
 ## Documentation : 
 
