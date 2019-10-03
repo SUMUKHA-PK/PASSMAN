@@ -39,6 +39,14 @@ THIS IS PASSMAN!
 
 * Server setup :
     
+## Contributions :
+
+If you have an excellent idea on how to make this better, reach out to me by opening an issue! We can work on it together :)
+
+## LICENSE :
+
+MIT LICENSE provided.
+
 ## Demonstration : 
 
 
