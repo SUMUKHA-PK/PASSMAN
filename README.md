@@ -16,6 +16,8 @@ THIS IS PASSMAN!
 * Setup of the client in local system is easy, single script does the whole initial setup.
 * HACKABLE code, fork and make your own modifications!
 * No trust involved with the cloud party as you can host it in your own network :)
+* Enables password sync between multiple devices due to centralised behaviour.
+* Excellent syncing ability - Passwords updated from different machines are synced through the server when prompted.
 
 ## Documentation : 
 
@@ -35,6 +37,8 @@ THIS IS PASSMAN!
         3. Provide permissions by `chmod +x build.sh`
         4. Build and the client by `./build.sh`
 
+* Server setup :
+    
 ## Demonstration : 
 
 
