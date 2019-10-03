@@ -41,7 +41,9 @@ THIS IS PASSMAN!
     
 ## Contributions :
 
-If you have an excellent idea on how to make this better, reach out to me by opening an issue! We can work on it together :)
+* If you have an excellent idea on how to make this better, reach out to me by opening an issue! We can work on it together :)
+
+* I also would love to hear "your own twist" to this. If you implemented a better/creative solution based on this, I'd love to hear from you! (sumukhapk46@gmail.com or just open an issue) 
 
 ## LICENSE :
 
