@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/SUMUKHA-PK/Password-Manager/client/redis"
+	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
 )
 
 // AddPwd enables the user to add more passwords to the existing vault

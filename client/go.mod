@@ -1,4 +1,4 @@
-module github.com/SUMUKHA-PK/Password-Manager/client
+module github.com/SUMUKHA-PK/PASSMAN/client
 
 go 1.12
 

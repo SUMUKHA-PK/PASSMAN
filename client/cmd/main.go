@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/SUMUKHA-PK/Password-Manager/client/passman"
+	"github.com/SUMUKHA-PK/PASSMAN/client/passman"
 )
 
 func main() {

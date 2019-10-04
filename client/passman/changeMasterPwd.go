@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/SUMUKHA-PK/Password-Manager/client/crypto"
-	"github.com/SUMUKHA-PK/Password-Manager/client/redis"
+	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
+	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
 )
 
 // ChangeMasterPwd allows the user to change the master password

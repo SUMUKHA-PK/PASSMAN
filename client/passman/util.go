@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/SUMUKHA-PK/Password-Manager/client/crypto"
-	"github.com/SUMUKHA-PK/Password-Manager/client/redis"
+	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
+	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -23,34 +23,42 @@ type Vault struct {
 // verifyAndGetDecryptedVaultData is a helper function that
 // checks auth and gets data from the REDIS server
 func verifyAndGetDecryptedVaultData() (string, string, string, error) {
+	username, vault, err := verifyAndGetVaultData()
+	if err != nil {
+		return "", "", "", err
+	}
+
+	fmt.Printf("\nYour vault password is: %s\n\n", vault.VaultPwd)
+
+	decryptedVault := decryptVault([]byte(vault.Vault), vault.VaultPwd)
+
+	return decryptedVault, username, vault.VaultPwd, err
+}
+
+func verifyAndGetVaultData() (string, redis.VaultData, error) {
 	username, err := getUsername()
 	if err != nil {
 		fmt.Println(err)
-		return "", "", "", err
+		return "", redis.VaultData{}, err
 	}
 	vault, err := redis.Retrieve(username)
 	if err != nil {
 		fmt.Printf("You've not registered to PASSMAN! Please register by choosing option 1.\n\n")
-		return "", "", "", err
+		return "", redis.VaultData{}, err
 	}
 	fmt.Printf("Hello %s!\nPlease enter your master password: ", username)
 	masterPwd, err := getMasterPwd()
 	if err != nil {
 		fmt.Println(err)
-		return "", "", "", err
+		return "", redis.VaultData{}, err
 	}
 
 	vaultPwd := crypto.SHA256(username + masterPwd)
 	if vaultPwd != vault.VaultPwd {
 		fmt.Println("You entered a wrong password! Please try again.")
-		return "", "", "", err
+		return "", redis.VaultData{}, err
 	}
-
-	fmt.Printf("\nYour vault password is: %s\n\n", vaultPwd)
-
-	decryptedVault := decryptVault([]byte(vault.Vault), vault.VaultPwd)
-
-	return decryptedVault, username, vaultPwd, err
+	return username, vault, nil
 }
 
 // getUsername gets the username from the STDIN

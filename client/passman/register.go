@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/SUMUKHA-PK/Password-Manager/client/crypto"
-	"github.com/SUMUKHA-PK/Password-Manager/client/redis"
+	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
+	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
 )
 
 // Register control flow is as follows:
