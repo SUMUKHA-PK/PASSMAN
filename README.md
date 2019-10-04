@@ -15,6 +15,9 @@ THIS IS PASSMAN!
 * Uses Go modules! Up to date with tech!
 * Setup of the client in local system is easy, single script does the whole initial setup.
 * HACKABLE code, fork and make your own modifications!
+* No trust involved with the cloud party as you can host it in your own network :)
+* Enables password sync between multiple devices due to centralised behaviour.
+* Excellent syncing ability - Passwords updated from different machines are synced through the server when prompted.
 
 ## Documentation : 
 
@@ -23,7 +26,7 @@ THIS IS PASSMAN!
 
 ## Usage : 
 
-* Initial setup :
+* Client setup :
     - Redis server setup :
         1. Pull the docker image by `docker pull redis`
         2. Run the docker image on your local system by `docker run -d -p 6397:6397 redis` 
@@ -33,6 +36,18 @@ THIS IS PASSMAN!
         2. Naviagate to the client folder by `cd ~/path-to-repo/client`
         3. Provide permissions by `chmod +x build.sh`
         4. Build and the client by `./build.sh`
+
+* Server setup :
+    
+## Contributions :
+
+* If you have an excellent idea on how to make this better, reach out to me by opening an issue! We can work on it together :)
+
+* I also would love to hear "your own twist" to this. If you implemented a better/creative solution based on this, I'd love to hear from you! (sumukhapk46@gmail.com or just open an issue) 
+
+## LICENSE :
+
+MIT LICENSE provided.
 
 ## Demonstration : 
 
