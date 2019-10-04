@@ -3,7 +3,6 @@ package passman
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
@@ -44,23 +43,22 @@ func Register() {
 	vaultPwd := crypto.SHA256(username + masterPwd)
 	fmt.Printf("Your vault password is: %s\n\n", vaultPwd)
 
-	authPwd := crypto.SHA256(masterPwd + vaultPwd)
-	fmt.Printf("Your auth password is: %s\n\n", authPwd)
-
 	m := make(map[string]Vault)
 	// A first dummy entry
 	m[username] = Vault{username, time.Now()}
 
 	byteMap, err := json.Marshal(m)
 	if err != nil {
-		log.Fatalf("Error in marshalling : %v", err)
+		fmt.Println(err)
+		return
 	}
 
 	byteEncryptedVault := encryptVault(byteMap, vaultPwd)
 
 	err = redis.Update(username, vaultPwd, string(byteEncryptedVault))
 	if err != nil {
-		log.Fatalf("Can't add data to Redis DB: %v", err)
+		fmt.Printf("Can't add data to Redis DB: %v", err)
+		return
 	}
 
 	fmt.Println("Registration complete!")

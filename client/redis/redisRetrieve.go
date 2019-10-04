@@ -6,8 +6,8 @@ import (
 
 // VaultData is the data in format as stored in REDIS
 type VaultData struct {
-	VaultPwd string
-	Vault    string
+	VaultPwd string // Key for the decryption of the vault
+	Vault    string // Ecnrypted vault string
 }
 
 // Retrieve gets data from the DB
