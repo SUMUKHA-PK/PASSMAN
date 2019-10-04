@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/SUMUKHA-PK/Password-Manager/client/redis"
 )
@@ -20,9 +21,8 @@ func AddPwd() {
 		return
 	}
 
-	var vaultMap map[string]string
+	var vaultMap map[string]Vault
 	err = json.Unmarshal([]byte(vault), &vaultMap)
-	fmt.Println(vaultMap)
 
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter the host of the password: ")
@@ -39,7 +39,7 @@ func AddPwd() {
 		return
 	}
 
-	vaultMap[hostname] = password
+	vaultMap[hostname] = Vault{password, time.Now()}
 	if _, ok := vaultMap[username]; ok {
 		delete(vaultMap, username)
 	}

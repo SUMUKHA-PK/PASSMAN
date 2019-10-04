@@ -7,11 +7,18 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/SUMUKHA-PK/Password-Manager/client/crypto"
 	"github.com/SUMUKHA-PK/Password-Manager/client/redis"
 	"golang.org/x/crypto/ssh/terminal"
 )
+
+// Vault is the entire vault data that gets encrypted
+type Vault struct {
+	HostPwd   string
+	TimeStamp time.Time
+}
 
 // verifyAndGetDecryptedVaultData is a helper function that
 // checks auth and gets data from the REDIS server

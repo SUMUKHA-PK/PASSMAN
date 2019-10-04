@@ -4,6 +4,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
+// VaultData is the data in format as stored in REDIS
 type VaultData struct {
 	VaultPwd string
 	Vault    string

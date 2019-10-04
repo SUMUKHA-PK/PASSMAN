@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/SUMUKHA-PK/Password-Manager/client/crypto"
 	"github.com/SUMUKHA-PK/Password-Manager/client/redis"
@@ -46,9 +47,9 @@ func Register() {
 	authPwd := crypto.SHA256(masterPwd + vaultPwd)
 	fmt.Printf("Your auth password is: %s\n\n", authPwd)
 
-	m := make(map[string]string)
+	m := make(map[string]Vault)
 	// A first dummy entry
-	m[username] = username
+	m[username] = Vault{username, time.Now()}
 
 	byteMap, err := json.Marshal(m)
 	if err != nil {
