@@ -3,7 +3,7 @@
 A password manager is essential to maintain lots of different passwords meeting the security needs of all the different hosts.
 Here is a simple solution to the same problem at zero cost.
 
-THIS IS PASSMAN!
+THIS IS PASSMAN! It includes a client using REDIS server on your local system and a locally hostable server.
 
 ## Features :
 
