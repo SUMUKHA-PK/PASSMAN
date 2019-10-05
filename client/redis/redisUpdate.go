@@ -5,7 +5,7 @@ import (
 )
 
 // Update adds data to the DB
-func Update(username string, vaultPwd string, vault string) error {
+func Update(username string, vault string) error {
 	conn, err := redis.Dial("tcp", "localhost:6379")
 	if err != nil {
 		return err
@@ -13,7 +13,7 @@ func Update(username string, vaultPwd string, vault string) error {
 
 	defer conn.Close()
 
-	_, err = conn.Do("HMSET", username, "vault", vault, "vaultPwd", vaultPwd)
+	_, err = conn.Do("HMSET", username, "vault", vault)
 	if err != nil {
 		return err
 	}

@@ -37,7 +37,8 @@ func ChangeMasterPwd() {
 	}
 
 	vaultPwd := crypto.SHA256(username + masterPwd)
-	if vaultPwd != vault.VaultPwd {
+	decryptedVault, err := decryptVault([]byte(vault.Vault), vaultPwd)
+	if err != nil {
 		fmt.Println("You entered a wrong password! Please try again.")
 		return
 	}
@@ -49,14 +50,15 @@ func ChangeMasterPwd() {
 		return
 	}
 
-	decryptedVault := decryptVault([]byte(vault.Vault), vault.VaultPwd)
-
 	vaultPwd = crypto.SHA256(username + masterPwd)
 	fmt.Printf("Your vault password is: %s\n\n", vaultPwd)
 
-	byteEncryptedVault := encryptVault([]byte(decryptedVault), vaultPwd)
+	byteEncryptedVault, err := encryptVault([]byte(decryptedVault), vaultPwd)
+	if err != nil {
+		return
+	}
 
-	err = redis.Update(username, vaultPwd, string(byteEncryptedVault))
+	err = redis.Update(username, string(byteEncryptedVault))
 	if err != nil {
 		log.Fatalf("Can't add data to Redis DB: %v", err)
 	}

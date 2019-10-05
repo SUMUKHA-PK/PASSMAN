@@ -4,13 +4,13 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
 	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
+	"github.com/gookit/color"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -23,42 +23,48 @@ type Vault struct {
 // verifyAndGetDecryptedVaultData is a helper function that
 // checks auth and gets data from the REDIS server
 func verifyAndGetDecryptedVaultData() (string, string, string, error) {
-	username, vault, err := verifyAndGetVaultData()
+	username, vault, vaultPwd, err := verifyAndGetVaultData()
 	if err != nil {
 		return "", "", "", err
 	}
 
-	fmt.Printf("\nYour vault password is: %s\n\n", vault.VaultPwd)
+	fmt.Printf("\nYour vault password is: %s\n\n", vaultPwd)
 
-	decryptedVault := decryptVault([]byte(vault.Vault), vault.VaultPwd)
-
-	return decryptedVault, username, vault.VaultPwd, err
+	decryptedVault, err := decryptVault([]byte(vault.Vault), vaultPwd)
+	if err != nil {
+		fmt.Println("Error in decrypting vault: %v", err)
+	}
+	return decryptedVault, username, vaultPwd, err
 }
 
-func verifyAndGetVaultData() (string, redis.VaultData, error) {
+func verifyAndGetVaultData() (string, redis.VaultData, string, error) {
 	username, err := getUsername()
 	if err != nil {
 		fmt.Println(err)
-		return "", redis.VaultData{}, err
+		return "", redis.VaultData{}, "", err
 	}
 	vault, err := redis.Retrieve(username)
 	if err != nil {
 		fmt.Printf("You've not registered to PASSMAN! Please register by choosing option 1.\n\n")
-		return "", redis.VaultData{}, err
+		return "", redis.VaultData{}, "", err
 	}
 	fmt.Printf("Hello %s!\nPlease enter your master password: ", username)
 	masterPwd, err := getMasterPwd()
 	if err != nil {
 		fmt.Println(err)
-		return "", redis.VaultData{}, err
+		return "", redis.VaultData{}, "", err
 	}
 
 	vaultPwd := crypto.SHA256(username + masterPwd)
-	if vaultPwd != vault.VaultPwd {
-		fmt.Println("You entered a wrong password! Please try again.")
-		return "", redis.VaultData{}, err
+
+	_, err = decryptVault([]byte(vault.Vault), vaultPwd)
+	if err != nil {
+		fmt.Printf("\n")
+		color.Error.Println("You entered a wrong password! Please try again.")
+		return "", redis.VaultData{}, "", err
 	}
-	return username, vault, nil
+
+	return username, vault, vaultPwd, nil
 }
 
 // getUsername gets the username from the STDIN
@@ -67,7 +73,7 @@ func getUsername() (string, error) {
 	fmt.Print("Enter your email id: ")
 	username, err := reader.ReadString('\n')
 	if err != nil {
-		log.Fatalf("Error in reading input : %v", err)
+		fmt.Printf("Error in reading input : %v", err)
 		return "", err
 	}
 	username = strings.TrimSpace(username)
@@ -79,13 +85,14 @@ func getMasterPwd() (string, error) {
 
 	masterPw1, err := terminal.ReadPassword(0)
 	if err != nil {
-		log.Fatalf("Error in reading input : %v", err)
+		fmt.Printf("Error in reading input : %v", err)
+		return "", err
 	}
 
 	fmt.Println("\nRe-enter password to confirm: ")
 	masterPw2, err := terminal.ReadPassword(0)
 	if err != nil {
-		log.Fatalf("Error in reading input : %v", err)
+		fmt.Printf("Error in reading input : %v", err)
 		return "", err
 	}
 
@@ -97,38 +104,41 @@ func getMasterPwd() (string, error) {
 }
 
 // encryptVault encrypts the vault and returns the encrypted string
-func encryptVault(byteMap []byte, vaultPwd string) []byte {
+func encryptVault(byteMap []byte, vaultPwd string) ([]byte, error) {
 	vaultPwdArr := splitString(vaultPwd)
 
 	// double encryption
 	encryptedData, err := crypto.AESEncrypt(byteMap, []byte(vaultPwdArr[0]))
 	if err != nil {
-		log.Fatalf("Error in encrypting : %v", err)
+		fmt.Printf("Error in encrypting : %v", err)
+		return []byte{}, err
 	}
 
 	encryptedData, err = crypto.AESEncrypt(encryptedData, []byte(vaultPwdArr[1]))
 	if err != nil {
-		log.Fatalf("Error in encrypting : %v", err)
+		fmt.Printf("Error in encrypting : %v", err)
+		return []byte{}, err
 	}
-	return encryptedData
+
+	return encryptedData, nil
 }
 
 // decryptVault decrypts the encrypted Vault and returns the PT string
-func decryptVault(encryptedData []byte, vaultPwd string) string {
+func decryptVault(encryptedData []byte, vaultPwd string) (string, error) {
 	vaultPwdArr := splitString(vaultPwd)
 
 	// equivalent decryption
 	plainText, err := crypto.AESDecrypt(encryptedData, []byte(vaultPwdArr[1]))
 	if err != nil {
-		log.Fatalf("Error in decrypting 1: %v", err)
+		return "", err
 	}
 
 	plainText, err = crypto.AESDecrypt(plainText, []byte(vaultPwdArr[0]))
 	if err != nil {
-		log.Fatalf("Error in decrypting : %v", err)
+		return "", err
 	}
 
-	return string(plainText)
+	return string(plainText), nil
 }
 
 // splitString is a utility function to split a string into 2 equal parts

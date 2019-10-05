@@ -1,6 +1,10 @@
 package redis
 
-import "github.com/gomodule/redigo/redis"
+import (
+	"fmt"
+
+	"github.com/gomodule/redigo/redis"
+)
 
 // Retrieve gets the data from the REDIS db
 func Retrieve(authPwd string) (string, error) {
@@ -14,5 +18,6 @@ func Retrieve(authPwd string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	fmt.Printf("\n%x\n", vault)
 	return vault, nil
 }

@@ -1,10 +1,14 @@
 package passman
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/gookit/color"
+)
 
 // Access gets all the data from the vault of the current person
 func Access() {
-	fmt.Printf("\nPASSMAN Vault view sequence.\n")
+	color.Info.Printf("\nPASSMAN Vault view sequence.\n\n")
 	vault, _, _, err := verifyAndGetDecryptedVaultData()
 	if err != nil {
 		return
@@ -13,4 +17,5 @@ func Access() {
 	fmt.Println(vault)
 	fmt.Printf("\n\n")
 
+	color.Success.Println("Vault access complete!")
 }

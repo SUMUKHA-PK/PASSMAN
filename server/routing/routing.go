@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// ServerData is the entire Server Data
 var ServerData server.Data
 
 // SetupRouting adds all the routes

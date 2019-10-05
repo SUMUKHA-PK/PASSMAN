@@ -10,11 +10,12 @@ import (
 	"time"
 
 	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
+	"github.com/gookit/color"
 )
 
 // AddPwd enables the user to add more passwords to the existing vault
 func AddPwd() {
-	fmt.Printf("\nPASSMAN Password addition sequence.\n")
+	color.Info.Printf("\nPASSMAN Password addition sequence.\n\n")
 
 	vault, username, vaultPwd, err := verifyAndGetDecryptedVaultData()
 	if err != nil {
@@ -48,13 +49,17 @@ func AddPwd() {
 		log.Fatalf("Error in marshalling : %v", err)
 	}
 
-	byteEncryptedVault := encryptVault(byteMap, vaultPwd)
+	byteEncryptedVault, err := encryptVault(byteMap, vaultPwd)
+	if err != nil {
+		return
+	}
 
-	err = redis.Update(username, vaultPwd, string(byteEncryptedVault))
+	err = redis.Update(username, string(byteEncryptedVault))
 	if err != nil {
 		log.Fatalf("Can't add data to Redis DB: %v", err)
 	}
+	fmt.Printf("\n\n")
 
-	fmt.Printf("\nPassword addition complete!\n\n")
+	color.Success.Println("Password addition complete!")
 
 }

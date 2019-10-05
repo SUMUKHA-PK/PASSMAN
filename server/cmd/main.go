@@ -17,7 +17,7 @@ func main() {
 	counter := 0
 	routing.ServerData = server.Data{
 		Router:        r,
-		Port:          "55555",
+		Port:          "6666",
 		HTTPS:         false,
 		ConnectionMap: m,
 		Count:         counter,

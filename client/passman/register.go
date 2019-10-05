@@ -7,6 +7,7 @@ import (
 
 	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
 	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
+	"github.com/gookit/color"
 )
 
 // Register control flow is as follows:
@@ -18,30 +19,34 @@ import (
 // 3. Creates a dummy vault entry with the username
 // of the user, encrypts using the vault password.
 // 4. Registration complete!
+// The vaultPwd is not stored in the DB as it
+// might compromise the security. The correctness
+// of decryption is handled by the message auth codes.
 func Register() {
 
-	fmt.Printf("\nPASSMAN Registration sequence.\n")
+	color.Info.Printf("\nPASSMAN Registration sequence.\n\n")
 	username, err := getUsername()
 	if err != nil {
-		fmt.Println(err)
+		color.Error.Printf("Can't read from STDIN: %v", err)
 		return
 	}
 	_, err = redis.Retrieve(username)
 	if err == nil {
-		fmt.Printf("You've already registered to PASSMAN! Try something else.\n\n")
+		fmt.Printf("\n")
+		color.Error.Printf("You've already registered to PASSMAN! Try something else.")
 		return
 	}
 	fmt.Printf("Hello %s!\nPlease enter your master password: ", username)
 	masterPwd, err := getMasterPwd()
 	if err != nil {
-		fmt.Println(err)
+		color.Error.Printf("Can't read from STDIN: %v", err)
 		return
 	}
 
 	fmt.Printf("\nGenerating vault key....\n")
 
 	vaultPwd := crypto.SHA256(username + masterPwd)
-	fmt.Printf("Your vault password is: %s\n\n", vaultPwd)
+	fmt.Printf("\nYour vault password is: %s\n", vaultPwd)
 
 	m := make(map[string]Vault)
 	// A first dummy entry
@@ -49,17 +54,19 @@ func Register() {
 
 	byteMap, err := json.Marshal(m)
 	if err != nil {
-		fmt.Println(err)
+		color.Error.Printf("Error in marshalling the map: %v", err)
 		return
 	}
 
-	byteEncryptedVault := encryptVault(byteMap, vaultPwd)
-
-	err = redis.Update(username, vaultPwd, string(byteEncryptedVault))
+	byteEncryptedVault, err := encryptVault(byteMap, vaultPwd)
 	if err != nil {
-		fmt.Printf("Can't add data to Redis DB: %v", err)
 		return
 	}
-
-	fmt.Println("Registration complete!")
+	err = redis.Update(username, string(byteEncryptedVault))
+	if err != nil {
+		color.Error.Printf("Can't add data to Redis DB: %v", err)
+		return
+	}
+	fmt.Printf("\n")
+	color.Success.Println("Registration complete!")
 }

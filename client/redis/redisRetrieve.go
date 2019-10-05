@@ -6,8 +6,8 @@ import (
 
 // VaultData is the data in format as stored in REDIS
 type VaultData struct {
-	VaultPwd string // Key for the decryption of the vault
-	Vault    string // Ecnrypted vault string
+	// VaultPwd string // Key for the decryption of the vault
+	Vault string // Ecnrypted vault string
 }
 
 // Retrieve gets data from the DB
@@ -23,10 +23,5 @@ func Retrieve(username string) (VaultData, error) {
 		return VaultData{}, err
 	}
 
-	vaultPwd, err := redis.String(conn.Do("HGET", username, "vaultPwd"))
-	if err != nil {
-		return VaultData{}, err
-	}
-
-	return VaultData{vaultPwd, vault}, nil
+	return VaultData{vault}, nil
 }

@@ -8,14 +8,14 @@ type GetDataReq struct {
 // PutDataReq is the req for PDTS
 type PutDataReq struct {
 	AuthPwd string
-	Vault   string
+	Vault   []byte
 }
 
 // GetDataRes is the res for GTFS
 type GetDataRes struct {
 	StatusCode int
 	Status     string
-	Vault      string
+	Vault      []byte
 }
 
 // PutDataRes is the res for PDTS
