@@ -5,7 +5,7 @@ go 1.12
 require (
 	github.com/SUMUKHA-PK/Mail-Server v0.0.0-20190816164339-1124c969783e // indirect
 	github.com/SUMUKHA-PK/PASSMAN v0.0.0-20191004101919-94a12e0b6d23 // indirect
-	github.com/SUMUKHA-PK/PASSMAN/server v0.0.0-20191004101919-94a12e0b6d23
+	github.com/SUMUKHA-PK/PASSMAN/server v0.0.0-20191006111645-9ef4b0e82386
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/gookit/color v1.2.0
 	github.com/lib/pq v1.2.0 // indirect

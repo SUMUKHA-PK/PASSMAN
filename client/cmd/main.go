@@ -27,7 +27,19 @@ Welcome to PASSMAN, your locally hosted Password Manager!
 
 	for {
 		color.Notice.Printf("\n\nWhat do you want to do?\n\n")
-		color.Notice.Printf("1. Register on PASSMAN.\n2. View saved passwords.\n3. Add password.\n4. Change master password.\n5. Sync data with server\n6. View data on server\n7. Remove data from server\n8. Exit PASSMAN :(\n\n")
+		options :=
+			`1. Register on PASSMAN.
+2. View saved passwords.
+3. Add password.
+4. Remove Password.
+5. Change master password.
+6. Sync data with server.
+7. View data on server.
+8. Remove data from server.
+9. Exit PASSMAN :(
+		
+`
+		color.Notice.Printf(options)
 		reader := bufio.NewReader(os.Stdin)
 
 		option, err := reader.ReadString('\n')
@@ -44,20 +56,22 @@ Welcome to PASSMAN, your locally hosted Password Manager!
 		case "3":
 			passman.AddPwd()
 		case "4":
-			passman.ChangeMasterPwd()
+			passman.RemovePwd()
 		case "5":
-			passman.SyncDataWithServer()
+			passman.ChangeMasterPwd()
 		case "6":
-			passman.ViewDataOnServer()
+			passman.SyncDataWithServer()
 		case "7":
+			passman.ViewDataOnServer()
+		case "8":
 			passman.RemoveDataFromServer()
 		default:
 			fmt.Println("Please enter a valid option in the given list!")
-		case "8":
+		case "9":
 			break
 		}
 
-		if option == "8" {
+		if option == "9" {
 			color.Yellow.Println("Exiting PASSMAN. Bye :)")
 			break
 		}

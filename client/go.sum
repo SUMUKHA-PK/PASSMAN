@@ -9,8 +9,11 @@ github.com/SUMUKHA-PK/Mail-Server v0.0.0-20190609055344-90c73a193cb2/go.mod h1:J
 github.com/SUMUKHA-PK/Mail-Server v0.0.0-20190816164339-1124c969783e/go.mod h1:JyfFPZi5OLDbmvgbUionDlIv6vX2YVteNSrkIFVG35w=
 github.com/SUMUKHA-PK/PASSMAN v0.0.0-20191004101919-94a12e0b6d23 h1:jkYfgF6vrd5W+Cfs4c/HuOLOYu3P+wFgI6YuKDSsA58=
 github.com/SUMUKHA-PK/PASSMAN v0.0.0-20191004101919-94a12e0b6d23/go.mod h1:hjviK3nIcaQH4tfZdruCR4cOPGJUxipkSg4+F6b44Ls=
+github.com/SUMUKHA-PK/PASSMAN v0.0.0-20191006111645-9ef4b0e82386 h1:M1MnJEXuO6wamT/nBpomgch3aQqxQsDSeMLWKAzi6bk=
 github.com/SUMUKHA-PK/PASSMAN/server v0.0.0-20191004101919-94a12e0b6d23 h1:KC8TPjpaqviFbOHeuGEN9JDQZvDYsErYLOff41C52aE=
 github.com/SUMUKHA-PK/PASSMAN/server v0.0.0-20191004101919-94a12e0b6d23/go.mod h1:ml3cCBBP1g9f8//iTfn0xkZcPacpOJ3mZS3G1aRKN7E=
+github.com/SUMUKHA-PK/PASSMAN/server v0.0.0-20191006111645-9ef4b0e82386 h1:tNLnpVxDroZ3mxHSCH3M3ZQe8qVk4aPoWwMIbxErh08=
+github.com/SUMUKHA-PK/PASSMAN/server v0.0.0-20191006111645-9ef4b0e82386/go.mod h1:ml3cCBBP1g9f8//iTfn0xkZcPacpOJ3mZS3G1aRKN7E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/go-sql-driver/mysql v1.4.1/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
 github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
@@ -47,6 +50,7 @@ golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7w
 golang.org/x/sys v0.0.0-20190606165138-5da285871e9c/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20190801041406-cbf593c0f2f3 h1:4y9KwBHBgBNwDbtu44R5o1fdOCQUEXhbk/P4A9WmJq0=
 golang.org/x/sys v0.0.0-20190801041406-cbf593c0f2f3/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.0.0-20191005200804-aed5e4c7ecf9 h1:L2auWcuQIvxz9xSEqzESnV/QN/gNRXNApHi3fYwl2w0=
 golang.org/x/sys v0.0.0-20191005200804-aed5e4c7ecf9/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=

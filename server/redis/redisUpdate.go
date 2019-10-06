@@ -1,8 +1,6 @@
 package redis
 
 import (
-	"fmt"
-
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -14,7 +12,7 @@ func Update(authPwd string, vault []byte) error {
 	}
 
 	defer conn.Close()
-	fmt.Printf("\n%s\n", vault)
+
 	_, err = conn.Do("HMSET", "VAULT", authPwd, string(vault))
 	if err != nil {
 		return err

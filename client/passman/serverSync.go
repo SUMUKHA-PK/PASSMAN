@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
 	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
@@ -25,58 +26,52 @@ import (
 func SyncDataWithServer() {
 	color.Info.Printf("PASSMAN Server sync sequence\n\n")
 
+	err := serverCommunication("sync")
+	if err != nil {
+		return
+	}
+	fmt.Printf("\n\n")
+
+	color.Success.Println("Vault data synced with server.")
+}
+
+func serverCommunication(syncOrRemove string) error {
 	username, vault, vaultPwd, err := verifyAndGetVaultData()
 	if err != nil {
 		color.Error.Println(err)
-		return
+		return err
 	}
 
 	authPwd := crypto.SHA256(username + vaultPwd)
 	vaultServer, err := getDataFromServer(authPwd)
 	if err != nil {
 		color.Error.Println("No data available on server.")
-		// return
 	}
 
-	fmt.Println("W")
-	fmt.Println(decryptVault([]byte(vault.Vault), vaultPwd))
-	fmt.Println("Q")
 	byteEncryptedVault := []byte(vault.Vault)
-
-	fmt.Printf("\n%x\n", vault.Vault)
-
-	fmt.Printf("\n%x\n", string(byteEncryptedVault))
-
-	fmt.Printf("\n%x\n", vaultServer)
-
-	if vault.Vault != vaultServer {
-		fmt.Println("WTFBAU")
-	}
-
-	// Case where there is no data in the server
+	// Case where there is no data in the server skips this block
 	if vaultServer != "" {
 		decryptedVault, err := decryptVault([]byte(vault.Vault), vaultPwd)
 		if err != nil {
 			color.Error.Println("Error in decryption: %v", err)
-			return
+			return err
 		}
-		fmt.Println("Yeha")
 		decryptedVaultServer, err := decryptVault([]byte(vaultServer), vaultPwd)
 		if err != nil {
 			color.Error.Printf("Error in decryption: %v", err)
-			return
+			return err
 		}
 
 		var vaultMap, vaultMapServer map[string]Vault
 		err = json.Unmarshal([]byte(decryptedVault), &vaultMap)
 		if err != nil {
 			fmt.Println(err)
-			return
+			return err
 		}
 		err = json.Unmarshal([]byte(decryptedVaultServer), &vaultMapServer)
 		if err != nil {
 			fmt.Println(err)
-			return
+			return err
 		}
 
 		for k, v := range vaultMapServer {
@@ -91,26 +86,38 @@ func SyncDataWithServer() {
 			}
 		}
 
-		byteMap, err := json.Marshal(vaultMap)
-		if err != nil {
-			fmt.Println(err)
-			return
+		var byteMap []byte
+		if syncOrRemove == "sync" {
+			byteMap, err = json.Marshal(vaultMap)
+			if err != nil {
+				color.Error.Println(err)
+				return err
+			}
+			byteEncryptedVault, err = encryptVault(byteMap, vaultPwd)
+			if err != nil {
+				return err
+			}
+			err = redis.Update(username, string(byteEncryptedVault))
+			if err != nil {
+				color.Error.Printf("Can't add data to Redis DB: %v", err)
+				return err
+			}
+		} else if syncOrRemove == "remove" {
+			byteMap, err = json.Marshal(getInitMap(username))
+			if err != nil {
+				color.Error.Println(err)
+				return err
+			}
 		}
 
 		byteEncryptedVault, err = encryptVault(byteMap, vaultPwd)
-
-		err = redis.Update(username, string(byteEncryptedVault))
 		if err != nil {
-			fmt.Printf("Can't add data to Redis DB: %v", err)
-			return
+			return err
 		}
 	}
-	fmt.Println("we")
-	fmt.Println(decryptVault([]byte(string(byteEncryptedVault)), vaultPwd))
-	fmt.Println("WE")
-	err = putDataToServer(authPwd, string(byteEncryptedVault))
 
-	fmt.Println("Vault data synced with server.")
+	err = putDataToServer(authPwd, byteEncryptedVault)
+	return err
 }
 
 // getDataFromServer contacts the server to get vault data
@@ -158,7 +165,7 @@ func getDataFromServer(authPwd string) (string, error) {
 		return "", err
 	}
 
-	return newReq.Vault, nil
+	return string(newReq.Vault), nil
 }
 
 func putDataToServer(authPwd string, vault []byte) error {
@@ -166,23 +173,19 @@ func putDataToServer(authPwd string, vault []byte) error {
 	outData := &routing.PutDataReq{authPwd, vault}
 	payload, err := json.Marshal(outData)
 	if err != nil {
-		log.Printf("Can't Marshall to JSON in routing/startExp.go : %v\n", err)
+		color.Error.Printf("Can't Marshall to JSON in routing/startExp.go : %v\n", err)
 		return err
 	}
-
-	fmt.Printf("\n%s\n", outData.Vault)
-
 	req, err := http.NewRequest("POST", URL, strings.NewReader(string(payload)))
 	if err != nil {
-		log.Printf("Bad request in routing/startExp.go : %v\n", err)
+		color.Error.Printf("Bad request in routing/startExp.go : %v\n", err)
 		return err
 	}
 
-	fmt.Println(req)
 	req.Header.Add("Content-Type", "application/json")
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		log.Printf("Bad response in serverSync.go: %v\n", err)
+		color.Error.Printf("Bad response in serverSync.go: %v\n", err)
 		return err
 	}
 
@@ -195,17 +198,23 @@ func putDataToServer(authPwd string, vault []byte) error {
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		log.Printf("Bad request in serverSync.go")
-		log.Println(err)
+		color.Error.Printf("Bad request in serverSync.go: %v", err)
 		return err
 	}
 
 	var newReq routing.PutDataRes
 	err = json.Unmarshal(body, &newReq)
 	if err != nil {
-		log.Printf("Couldn't Unmarshal data in serverSync.go : %v\n", err)
+		color.Error.Printf("Couldn't Unmarshal data in serverSync.go : %v\n", err)
 		return err
 	}
 
 	return nil
+}
+
+// getInitMap returns a dummy map to add to server on data removal
+func getInitMap(username string) map[string]Vault {
+	m := make(map[string]Vault)
+	m[username] = Vault{username, time.Now()}
+	return m
 }

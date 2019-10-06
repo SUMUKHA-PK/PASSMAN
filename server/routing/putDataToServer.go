@@ -2,7 +2,6 @@ package routing
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -29,9 +28,6 @@ func PutDataToServer(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	fmt.Printf("\nPDTS: %s\n", newReq.Vault)
-	fmt.Printf("\nPDTS: %x\n", newReq.AuthPwd)
 
 	err = redis.Update(newReq.AuthPwd, newReq.Vault)
 	if err != nil {

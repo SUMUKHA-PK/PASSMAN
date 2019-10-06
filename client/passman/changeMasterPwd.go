@@ -6,6 +6,7 @@ import (
 
 	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
 	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
+	"github.com/gookit/color"
 )
 
 // ChangeMasterPwd allows the user to change the master password
@@ -17,36 +18,36 @@ import (
 // 5. Encrypt the decrypted data using the new vault password.
 // 6. Write all the data back to Redis.
 func ChangeMasterPwd() {
-	fmt.Printf("\nPASSMAN Master Password changing sequence.\n")
+	color.Info.Printf("\nPASSMAN Master Password changing sequence.\n")
 
 	username, err := getUsername()
 	if err != nil {
-		fmt.Println(err)
+		color.Error.Println(err)
 		return
 	}
 	vault, err := redis.Retrieve(username)
 	if err != nil {
-		fmt.Printf("You've not registered to PASSMAN! Please register by choosing option 1.\n\n")
+		color.Error.Printf("You've not registered to PASSMAN! Please register by choosing option 1.\n\n")
 		return
 	}
 	fmt.Printf("Hello %s!\nPlease enter your master password: ", username)
 	masterPwd, err := getMasterPwd()
 	if err != nil {
-		fmt.Println(err)
+		color.Error.Println(err)
 		return
 	}
 
 	vaultPwd := crypto.SHA256(username + masterPwd)
 	decryptedVault, err := decryptVault([]byte(vault.Vault), vaultPwd)
 	if err != nil {
-		fmt.Println("You entered a wrong password! Please try again.")
+		color.Error.Println("You entered a wrong password! Please try again.")
 		return
 	}
 
 	fmt.Println("\nEnter the new master password: ")
 	masterPwd, err = getMasterPwd()
 	if err != nil {
-		fmt.Println(err)
+		color.Error.Println(err)
 		return
 	}
 

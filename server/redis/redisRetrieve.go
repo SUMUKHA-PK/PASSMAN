@@ -1,8 +1,6 @@
 package redis
 
 import (
-	"fmt"
-
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -18,6 +16,5 @@ func Retrieve(authPwd string) ([]byte, error) {
 	if err != nil {
 		return []byte{}, err
 	}
-	fmt.Printf("\n%x\n", vault)
 	return []byte(vault), nil
 }

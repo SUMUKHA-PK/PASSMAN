@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 	"time"
@@ -29,14 +28,14 @@ func AddPwd() {
 	fmt.Print("Enter the host of the password: ")
 	hostname, err := reader.ReadString('\n')
 	if err != nil {
-		log.Fatalf("Error in reading input : %v", err)
+		color.Error.Printf("Error in reading input : %v", err)
 	}
 	hostname = strings.TrimSpace(hostname)
 
 	fmt.Println("\nEnter the password of the host: ")
 	password, err := getMasterPwd()
 	if err != nil {
-		fmt.Println(err)
+		color.Error.Println(err)
 		return
 	}
 
@@ -46,7 +45,7 @@ func AddPwd() {
 	}
 	byteMap, err := json.Marshal(vaultMap)
 	if err != nil {
-		log.Fatalf("Error in marshalling : %v", err)
+		color.Error.Printf("Error in marshalling : %v", err)
 	}
 
 	byteEncryptedVault, err := encryptVault(byteMap, vaultPwd)
@@ -56,7 +55,7 @@ func AddPwd() {
 
 	err = redis.Update(username, string(byteEncryptedVault))
 	if err != nil {
-		log.Fatalf("Can't add data to Redis DB: %v", err)
+		color.Error.Printf("Can't add data to Redis DB: %v", err)
 	}
 	fmt.Printf("\n\n")
 
