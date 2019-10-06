@@ -49,6 +49,7 @@ THIS IS PASSMAN! It includes a client using REDIS server on your local system an
         4. Build and the client by `./build.sh`
 
 * Server setup :
+      Similar redis server setup and run `./build.sh` in /server
     
 ## Contributions :
 
