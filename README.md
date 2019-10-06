@@ -5,6 +5,17 @@ Here is a simple solution to the same problem at zero cost.
 
 THIS IS PASSMAN! It includes a client using REDIS server on your local system and a locally hostable server.
 
+## Functions :
+
+* Register a new user - allows any user to register for the PASSMAN service.
+* View saved passwords - all locally saved passwords of the vault are displayed. 
+* Add password - enables the user to add a password into the vault locally.
+* Remove password - enables the user to remove any password locally.
+* Change master password - enables user to change the master password that encrypts the vault.
+* Sync data with server - enables the user to sync the local passwords with the locally hoster server on port `6666`.
+* View data on server - enables the user to view the state of the vault in the server.
+* Remove data from server - removes all data from the server if the user opts to.
+
 ## Features :
 
 * Locally hostable on a network for home, school or university.
