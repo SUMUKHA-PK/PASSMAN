@@ -51,7 +51,7 @@ MIT LICENSE provided.
 
 ## Screenshot(s):
 
-![alt text](https://github.com/SUMUKHA-PK/PASSMAN/images/reg.png)
+![alt text](https://github.com/SUMUKHA-PK/PASSMAN/blob/master/images/reg.png)
 
 ## Demonstration : 
 
