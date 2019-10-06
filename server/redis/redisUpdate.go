@@ -7,7 +7,7 @@ import (
 )
 
 // Update updates the REDIS db with given data
-func Update(authPwd string, vault string) error {
+func Update(authPwd string, vault []byte) error {
 	conn, err := redis.Dial("tcp", "localhost:6379")
 	if err != nil {
 		return err
@@ -15,7 +15,7 @@ func Update(authPwd string, vault string) error {
 
 	defer conn.Close()
 	fmt.Printf("\n%s\n", vault)
-	_, err = conn.Do("HMSET", "VAULT", authPwd, vault)
+	_, err = conn.Do("HMSET", "VAULT", authPwd, string(vault))
 	if err != nil {
 		return err
 	}
