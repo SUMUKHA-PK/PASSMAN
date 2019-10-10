@@ -5,6 +5,17 @@ Here is a simple solution to the same problem at zero cost.
 
 THIS IS PASSMAN! It includes a client using REDIS server on your local system and a locally hostable server.
 
+## Functions :
+
+* Register a new user - allows any user to register for the PASSMAN service.
+* View saved passwords - all locally saved passwords of the vault are displayed. 
+* Add password - enables the user to add a password into the vault locally.
+* Remove password - enables the user to remove any password locally.
+* Change master password - enables user to change the master password that encrypts the vault.
+* Sync data with server - enables the user to sync the local passwords with the locally hoster server on port `6666`.
+* View data on server - enables the user to view the state of the vault in the server.
+* Remove data from server - removes all data from the server if the user opts to.
+
 ## Features :
 
 * Locally hostable on a network for home, school or university.
@@ -38,6 +49,7 @@ THIS IS PASSMAN! It includes a client using REDIS server on your local system an
         4. Build and the client by `./build.sh`
 
 * Server setup :
+      Similar redis server setup and run `./build.sh` in /server
     
 ## Contributions :
 
@@ -51,71 +63,52 @@ MIT LICENSE provided.
 
 ## Screenshot(s):
 
-![alt text](https://github.com/SUMUKHA-PK/PASSMAN/images/reg.png)
+![alt text](https://github.com/SUMUKHA-PK/PASSMAN/blob/master/images/reg.png)
 
 ## Demonstration : 
 
 ```
-some_guyy@localhost:~/pk/git/Password-Manager/client$ ./build.sh 
-
-|------ |----| ------ ------ |\    /| |----| |\    |
++-----+ +----+ +----- +----- |\    /| +----+ |\    |
 |     |	|    | |      |      | \  / | |    | | \   |
-|------	|----| |----- |----- |  \/  | |----| |  \  |
++-----+	|----| +----+ +----+ |  \/  | |----| |  \  |
 |       |    |      |      | |      | |    | |   \ |
-|       |    | -----| -----| |      | |    | |    \|
+|       |    | -----+ -----+ |      | |    | |    \|
 
 Welcome to PASSMAN, your locally hosted Password Manager!
 
 
 
-What do you want to do?
-
-1. Register on PASSMAN.
-2. View saved passwords.
-3. Add password.
-4. Change master password.
-5. Exit PASSMAN :(
-
-1
-
-PASSMAN Registration sequence.
-Enter your email id: qwe@123.com
-Hello qwe@123.com!
-Please enter your master password: 
-Re-enter password to confirm: 
-
-Generating vault key....
-Your vault password is: fdb2663fa1d52232105e5ef92e63c62dd537c5c7627272af4002fa5a6808c3ce
-
-Your auth password is: 34ff80c70d0b3aa6b1d93cc2a959fa748403f74d2ad667bd002edc6fce59b989
-
-Registration complete!
 
 What do you want to do?
 
 1. Register on PASSMAN.
 2. View saved passwords.
 3. Add password.
-4. Change master password.
-5. Exit PASSMAN :(
-
+4. Remove Password.
+5. Change master password.
+6. Sync data with server.
+7. View data on server.
+8. Remove data from server.
+9. Exit PASSMAN :(
+		
 3
 
 PASSMAN Password addition sequence.
-Enter your email id: qwe@123.com
-Hello qwe@123.com!
+
+Enter your email id: sumukhaPK@gmail.com
+Hello sumukhaPK@gmail.com!
 Please enter your master password: 
 Re-enter password to confirm: 
 
-Your vault password is: fdb2663fa1d52232105e5ef92e63c62dd537c5c7627272af4002fa5a6808c3ce
+Your vault password is: a8a1252db47e17f3f1bc21b1cf296c186796aa42720df2f8844a807d017c5398
 
-map[qwe@123.com:qwe@123.com]
 Enter the host of the password: amazon
 
 Enter the password of the host: 
 
 Re-enter password to confirm: 
 
+
 Password addition complete!
 
 
@@ -124,22 +117,29 @@ What do you want to do?
 1. Register on PASSMAN.
 2. View saved passwords.
 3. Add password.
-4. Change master password.
-5. Exit PASSMAN :(
-
+4. Remove Password.
+5. Change master password.
+6. Sync data with server.
+7. View data on server.
+8. Remove data from server.
+9. Exit PASSMAN :(
+		
 2
 
 PASSMAN Vault view sequence.
-Enter your email id: qwe@123.com
-Hello qwe@123.com!
+
+Enter your email id: sumukhaPK@gmail.com
+Hello sumukhaPK@gmail.com!
 Please enter your master password: 
 Re-enter password to confirm: 
 
-Your vault password is: fdb2663fa1d52232105e5ef92e63c62dd537c5c7627272af4002fa5a6808c3ce
+Your vault password is: a8a1252db47e17f3f1bc21b1cf296c186796aa42720df2f8844a807d017c5398
 
 Your vault currently looks like this : 
-{"amazon":"qwe"}
+{"amazon":{"HostPwd":"dummyaz","TimeStamp":"2019-10-06T19:41:49.147492183+05:30"}}
 
+
+Vault access complete!
 
 
 What do you want to do?
@@ -147,49 +147,31 @@ What do you want to do?
 1. Register on PASSMAN.
 2. View saved passwords.
 3. Add password.
-4. Change master password.
-5. Exit PASSMAN :(
-
-4
-
-PASSMAN Master Password changing sequence.
-Enter your email id: qwe@123.com
-Hello qwe@123.com!
-Please enter your master password: 
-Re-enter password to confirm: 
-
-Enter the new master password: 
-
-Re-enter password to confirm: 
-Your vault password is: 6ffe1f7998e9dc59c319907ab51e4730717ce2f76c7920ea3837166d9bf5011d
-
-Password change complete!
-
-What do you want to do?
-
-1. Register on PASSMAN.
-2. View saved passwords.
-3. Add password.
-4. Change master password.
-5. Exit PASSMAN :(
-
-3
+4. Remove Password.
+5. Change master password.
+6. Sync data with server.
+7. View data on server.
+8. Remove data from server.
+9. Exit PASSMAN :(
+		
+3 
 
 PASSMAN Password addition sequence.
-Enter your email id: qwe@123.com
-Hello qwe@123.com!
+
+Enter your email id: sumukhaPK@gmail.com
+Hello sumukhaPK@gmail.com!
 Please enter your master password: 
 Re-enter password to confirm: 
 
-Your vault password is: 6ffe1f7998e9dc59c319907ab51e4730717ce2f76c7920ea3837166d9bf5011d
+Your vault password is: a8a1252db47e17f3f1bc21b1cf296c186796aa42720df2f8844a807d017c5398
 
-map[amazon:qwe]
-Enter the host of the password: walmart
+Enter the host of the password: fb
 
 Enter the password of the host: 
 
 Re-enter password to confirm: 
 
+
 Password addition complete!
 
 
@@ -198,39 +180,29 @@ What do you want to do?
 1. Register on PASSMAN.
 2. View saved passwords.
 3. Add password.
-4. Change master password.
-5. Exit PASSMAN :(
-
-4
-
-PASSMAN Master Password changing sequence.
-Enter your email id: qwe@123.com
-Hello qwe@123.com!
-Please enter your master password: 
-Re-enter password to confirm: 
-Passwords dont match!
-
-What do you want to do?
-
-1. Register on PASSMAN.
-2. View saved passwords.
-3. Add password.
-4. Change master password.
-5. Exit PASSMAN :(
-
+4. Remove Password.
+5. Change master password.
+6. Sync data with server.
+7. View data on server.
+8. Remove data from server.
+9. Exit PASSMAN :(
+		
 2
 
 PASSMAN Vault view sequence.
-Enter your email id: qwe@123.com
-Hello qwe@123.com!
+
+Enter your email id: sumukhaPK@gmail.com
+Hello sumukhaPK@gmail.com!
 Please enter your master password: 
 Re-enter password to confirm: 
 
-Your vault password is: 6ffe1f7998e9dc59c319907ab51e4730717ce2f76c7920ea3837166d9bf5011d
+Your vault password is: a8a1252db47e17f3f1bc21b1cf296c186796aa42720df2f8844a807d017c5398
 
 Your vault currently looks like this : 
-{"amazon":"qwe","walmart":"qwe"}
+{"amazon":{"HostPwd":"dummyaz","TimeStamp":"2019-10-06T19:41:49.147492183+05:30"},"fb":{"HostPwd":"dummyFB","TimeStamp":"2019-10-06T19:42:42.886956591+05:30"}}
 
+
+Vault access complete!
 
 
 What do you want to do?
@@ -238,10 +210,70 @@ What do you want to do?
 1. Register on PASSMAN.
 2. View saved passwords.
 3. Add password.
-4. Change master password.
-5. Exit PASSMAN :(
+4. Remove Password.
+5. Change master password.
+6. Sync data with server.
+7. View data on server.
+8. Remove data from server.
+9. Exit PASSMAN :(
+		
+4
 
-5
+PASSMAN Password removal sequence.
+
+Enter your email id: sumukhaPK@gmail.com
+Hello sumukhaPK@gmail.com!
+Please enter your master password: 
+Re-enter password to confirm: 
+Enter the host you want to remove: amazon
+
+
+Password removal complete!
+
+
+What do you want to do?
+
+1. Register on PASSMAN.
+2. View saved passwords.
+3. Add password.
+4. Remove Password.
+5. Change master password.
+6. Sync data with server.
+7. View data on server.
+8. Remove data from server.
+9. Exit PASSMAN :(
+		
+2
+
+PASSMAN Vault view sequence.
+
+Enter your email id: sumukhaPK@gmail.com
+Hello sumukhaPK@gmail.com!
+Please enter your master password: 
+Re-enter password to confirm: 
+
+Your vault password is: a8a1252db47e17f3f1bc21b1cf296c186796aa42720df2f8844a807d017c5398
+
+Your vault currently looks like this : 
+{"fb":{"HostPwd":"dummyFB","TimeStamp":"2019-10-06T19:42:42.886956591+05:30"}}
+
+
+Vault access complete!
+
+
+What do you want to do?
+
+1. Register on PASSMAN.
+2. View saved passwords.
+3. Add password.
+4. Remove Password.
+5. Change master password.
+6. Sync data with server.
+7. View data on server.
+8. Remove data from server.
+9. Exit PASSMAN :(
+		
+9
 Exiting PASSMAN. Bye :)
 
 ```
