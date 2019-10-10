@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
 	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
 	"github.com/SUMUKHA-PK/PASSMAN/server/routing"
 	"github.com/gookit/color"
+	"golang.org/x/crypto/argon2"
 )
 
 // SyncDataWithServer pushes all the data to the server
@@ -42,8 +42,8 @@ func serverCommunication(syncOrRemove string) error {
 		return err
 	}
 
-	authPwd := crypto.SHA256(username + vaultPwd)
-	vaultServer, err := getDataFromServer(authPwd)
+	authPwd := argon2.IDKey(vaultPwd, []byte(username), 1, 64*1024, 4, 32)
+	vaultServer, err := getDataFromServer(string(authPwd))
 	if err != nil {
 		color.Error.Println("No data available on server.")
 	}
@@ -116,7 +116,7 @@ func serverCommunication(syncOrRemove string) error {
 		}
 	}
 
-	err = putDataToServer(authPwd, byteEncryptedVault)
+	err = putDataToServer(string(authPwd), byteEncryptedVault)
 	return err
 }
 

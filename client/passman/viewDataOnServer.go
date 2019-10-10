@@ -3,8 +3,8 @@ package passman
 import (
 	"fmt"
 
-	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
 	"github.com/gookit/color"
+	"golang.org/x/crypto/argon2"
 )
 
 // ViewDataOnServer allows to view vault on server
@@ -17,8 +17,8 @@ func ViewDataOnServer() {
 		return
 	}
 
-	authPwd := crypto.SHA256(username + vaultPwd)
-	vaultServer, err := getDataFromServer(authPwd)
+	authPwd := argon2.IDKey(vaultPwd, []byte(username), 1, 64*1024, 4, 32)
+	vaultServer, err := getDataFromServer(string(authPwd))
 	if err != nil {
 		color.Error.Println("No data available on server.")
 	}

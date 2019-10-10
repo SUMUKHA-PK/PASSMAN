@@ -8,9 +8,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
 	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
 	"github.com/gookit/color"
+	"golang.org/x/crypto/argon2"
 )
 
 // RemovePwd removes passwords from the DB
@@ -39,7 +39,7 @@ func RemovePwd() {
 		return
 	}
 
-	vaultPwd := crypto.SHA256(username + masterPwd)
+	vaultPwd := argon2.IDKey([]byte(masterPwd), []byte(username), 1, 64*1024, 4, 32)
 	decryptedVault, err := decryptVault([]byte(vault.Vault), vaultPwd)
 	if err != nil {
 		color.Error.Println("You entered a wrong password! Please try again.")

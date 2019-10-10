@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
 	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
 	"github.com/gookit/color"
+	"golang.org/x/crypto/argon2"
 )
 
 // Register control flow is as follows:
@@ -45,8 +45,8 @@ func Register() {
 
 	fmt.Printf("\nGenerating vault key....\n")
 
-	vaultPwd := crypto.SHA256(username + masterPwd)
-	fmt.Printf("\nYour vault password is: %s\n", vaultPwd)
+	vaultPwd := argon2.IDKey([]byte(masterPwd), []byte(username), 1, 64*1024, 4, 32)
+	fmt.Printf("\nYour vault password is: %s\n", string(vaultPwd))
 
 	m := make(map[string]Vault)
 	// A first dummy entry

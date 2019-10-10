@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/SUMUKHA-PK/PASSMAN/client/crypto"
 	"github.com/SUMUKHA-PK/PASSMAN/client/redis"
 	"github.com/gookit/color"
+	"golang.org/x/crypto/argon2"
 )
 
 // ChangeMasterPwd allows the user to change the master password
@@ -37,7 +37,7 @@ func ChangeMasterPwd() {
 		return
 	}
 
-	vaultPwd := crypto.SHA256(username + masterPwd)
+	vaultPwd := argon2.IDKey([]byte(masterPwd), []byte(username), 1, 64*1024, 4, 32)
 	decryptedVault, err := decryptVault([]byte(vault.Vault), vaultPwd)
 	if err != nil {
 		color.Error.Println("You entered a wrong password! Please try again.")
@@ -51,7 +51,7 @@ func ChangeMasterPwd() {
 		return
 	}
 
-	vaultPwd = crypto.SHA256(username + masterPwd)
+	vaultPwd = argon2.IDKey([]byte(masterPwd), []byte(username), 1, 64*1024, 4, 32)
 	fmt.Printf("Your vault password is: %s\n\n", vaultPwd)
 
 	byteEncryptedVault, err := encryptVault([]byte(decryptedVault), vaultPwd)
