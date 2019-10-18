@@ -53,9 +53,9 @@ THIS IS PASSMAN! It includes a client using REDIS server on your local system an
       
 * Using docker for server:
     - Pull the docker container:
-    	1. `docker pull peekay46/passman_server_v1.1		
+    	`docker pull peekay46/passman_server_v1.1`		
     - Run the docker image on your machine with any port you can:
-    	1. `docker run -d peekay46/passman_server_v1.1 -p port:6666` 
+    	`docker run -d peekay46/passman_server_v1.1 -p port:6666` 
     
 ## Contributions :
 
